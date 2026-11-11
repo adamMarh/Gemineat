@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cart Macros Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body class="options">
+  <h1>Cart Macros settings</h1>
+  <p class="muted">Everything here is stored locally in this browser (chrome.storage.local) and never synced.</p>
+
+  <section class="card">
+    <h2>AI engine</h2>
+    <div class="seg" role="radiogroup" aria-label="AI engine" id="engineSeg">
+      <label><input type="radio" name="engine" value="auto"><span>Auto</span></label>
+      <label><input type="radio" name="engine" value="ondevice"><span>On-device only</span></label>
+      <label><input type="radio" name="engine" value="gemini"><span>Gemini API</span></label>
+    </div>
+    <p class="muted small" id="engineHelp"></p>
+    <div class="row">
+      <span>On-device model (Chrome's built-in Gemini Nano):</span>
+      <b id="nanoStatus">checking…</b>
+      <button id="nanoDownload" hidden>Download model</button>
+    </div>
+    <p class="muted small">Free, no account, and your cart text never leaves this computer. Needs desktop Chrome 138+, about 22 GB free disk, and 16 GB RAM or a GPU with more than 4 GB VRAM. The model downloads once.</p>
+  </section>
+
+  <section class="card">
+    <h2>Gemini API (optional, your own key)</h2>
+    <p class="muted small">More accurate than the on-device model, and works on any computer. Each person uses their own free key; the extension never ships with one.</p>
+    <label class="field">API key
+      <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your key from Google AI Studio">
+    </label>
+    <label class="field">Model
+      <input id="model" type="text" spellcheck="false" placeholder="gemini-3.8-flash">
+    </label>
+    <div class="row">
+      <button id="saveKey" class="primary">Save</button>
+      <button id="testKey">Test key</button>
+      <button id="showKey" class="link">show</button>
+      <span id="keyStatus" class="form-status" aria-live="polite"></span>
+    </div>
+    <p class="muted small">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>. With this engine, cart page text and your numeric targets are sent to Google's Gemini API.</p>
+  </section>
+
+  <section class="card">
+    <h2>Goals profile</h2>
+    <div id="goalsMount"></div>
+  </section>
+
+  <section class="card">
+    <h2>Data</h2>
+    <div class="row">
+      <button id="clearOverrides">Clear item edits &amp; hidden items</button>
+      <button id="clearCache">Clear cart cache</button>
+      <span id="dataStatus" class="form-status ok" aria-live="polite"></span>
+    </div>
+  </section>
+
+  <p class="muted small">Targets are general estimates, not medical or dietary advice. If you have a medical condition, are pregnant, or are under 18, consult a professional.</p>
+
+  <script src="goals.js"></script>
+  <script src="util.js"></script>
+  <script src="ondevice.js"></script>
+  <script src="form.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
