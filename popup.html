@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cart Macros</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body class="popup">
+  <header class="top">
+    <h1>Cart Macros</h1>
+    <button id="openOptions" class="icon-btn" title="Settings" aria-label="Settings">⚙</button>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="cart" aria-selected="true">Cart</button>
+    <button role="tab" data-tab="goals" aria-selected="false">Goals</button>
+    <button role="tab" data-tab="suggest" aria-selected="false">Suggestions</button>
+  </nav>
+
+  <main>
+    <section id="tab-cart" class="tab" role="tabpanel">
+      <div id="cartBanners"></div>
+      <div id="pasteBox" class="card" hidden>
+        <label for="pasteText" class="muted">Paste your list, e.g. "2x Greek yogurt 750g, 1kg chicken breast, oats 1kg"</label>
+        <textarea id="pasteText" rows="4" placeholder="2x Greek yogurt 750g&#10;1kg chicken breast&#10;oats 1kg"></textarea>
+        <div class="row"><button id="pasteGo" class="primary">Analyze list</button><button id="pasteCancel">Cancel</button></div>
+      </div>
+      <div id="cartBody"></div>
+      <div class="row actions">
+        <button id="rescan">Rescan</button>
+        <button id="pasteToggle">Paste list</button>
+        <button id="copySummary">Copy summary</button>
+      </div>
+    </section>
+
+    <section id="tab-goals" class="tab" role="tabpanel" hidden>
+      <div id="goalsMount"></div>
+    </section>
+
+    <section id="tab-suggest" class="tab" role="tabpanel" hidden>
+      <div id="suggestBody"></div>
+    </section>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="goals.js"></script>
+  <script src="util.js"></script>
+  <script src="form.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
