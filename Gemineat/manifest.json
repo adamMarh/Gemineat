@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Cart Macros",
+  "version": "1.0.0",
+  "description": "Totals the macros in your online grocery cart, compares them to your goals, and suggests better swaps (powered by Gemini).",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://generativelanguage.googleapis.com/*"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_popup": "popup.html", "default_title": "Cart Macros" },
+  "options_page": "options.html"
+}
