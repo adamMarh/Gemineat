@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Cart Macros</title>
+  <title>Cart Macros — Smart grocery nutrition</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body class="popup">
   <header class="top">
-    <h1>Cart Macros</h1>
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <div>
+        <h1>Cart Macros</h1>
+        <p>Smarter choices, one cart at a time</p>
+      </div>
+    </div>
     <button id="openOptions" class="icon-btn" title="Settings" aria-label="Settings">⚙</button>
   </header>
 
@@ -19,6 +25,13 @@
 
   <main>
     <section id="tab-cart" class="tab" role="tabpanel">
+      <div class="cart-hero">
+        <div class="hero-orb" aria-hidden="true">✦</div>
+        <div>
+          <strong>Your cart, decoded</strong>
+          <span>See the story behind your groceries.</span>
+        </div>
+      </div>
       <div id="cartBanners"></div>
       <div id="pasteBox" class="card" hidden>
         <label for="pasteText" class="muted">Paste your list, e.g. "2x Greek yogurt 750g, 1kg chicken breast, oats 1kg"</label>
@@ -26,10 +39,12 @@
         <div class="row"><button id="pasteGo" class="primary">Analyze list</button><button id="pasteCancel">Cancel</button></div>
       </div>
       <div id="cartBody"></div>
+      <div id="scanMeta" class="scan-meta" hidden></div>
       <div class="row actions">
         <button id="rescan">Rescan</button>
         <button id="pasteToggle">Paste list</button>
         <button id="copySummary">Copy summary</button>
+        <button id="clearView" class="quiet-action">Clear view</button>
       </div>
     </section>
 

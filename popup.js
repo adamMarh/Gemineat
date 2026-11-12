@@ -63,7 +63,7 @@ async function scan({ force = false } = {}) {
       throw Object.assign(new Error('This page has almost no readable text (the cart may be inside an iframe). Try Paste list.'), { code: 'NO_TEXT' });
     }
     const data = await send({ type: 'extractCart', text: page.text, title: page.title, url: page.url, source: 'page', force });
-    state.scan = { ...data, source: 'page', title: page.title, url: page.url, truncated: page.truncated };
+    state.scan = { ...data, source: 'page', title: page.title, url: page.url, truncated: page.truncated, scannedAt: Date.now() };
   } catch (e) {
     state.error = { code: e.code, message: e.message };
   } finally {
@@ -76,7 +76,7 @@ async function scanPaste(text) {
   state.loading = true; state.error = null; resetSuggestions(); renderAll();
   try {
     const data = await send({ type: 'extractCart', text: text.slice(0, 30000), title: 'Pasted list', url: 'pasted:list', source: 'paste' });
-    state.scan = { ...data, source: 'paste', title: 'Pasted list', url: '' };
+    state.scan = { ...data, source: 'paste', title: 'Pasted list', url: '', scannedAt: Date.now() };
     $('#pasteBox').hidden = true;
   } catch (e) {
     state.error = { code: e.code, message: e.message };
@@ -217,6 +217,13 @@ function renderCart() {
   $('#copySummary').disabled = !state.scan?.items?.length || state.loading;
 
   const body = $('#cartBody');
+  const meta = $('#scanMeta');
+  meta.hidden = !state.scan;
+  if (state.scan) {
+    const source = state.scan.source === 'paste' ? 'Pasted list' : 'Current page';
+    const time = state.scan.scannedAt ? new Date(state.scan.scannedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+    meta.innerHTML = `<span class="status-dot"></span><span><b>${source}</b>${time ? ` · analyzed at ${time}` : ''}</span><span class="scan-count">${state.scan.items?.length || 0} items</span>`;
+  }
   if (!state.apiKey) { body.innerHTML = ''; return; }
   if (state.loading) { body.innerHTML = `<div class="spinner">Reading your cart with Gemini…</div>`; return; }
   if (state.error) { body.innerHTML = errorBanner(state.error); return; }
@@ -375,6 +382,17 @@ $('#pasteToggle').addEventListener('click', () => { $('#pasteBox').hidden = !$('
 $('#pasteCancel').addEventListener('click', () => ($('#pasteBox').hidden = true));
 $('#pasteGo').addEventListener('click', () => scanPaste($('#pasteText').value));
 $('#copySummary').addEventListener('click', () => state.scan && copy(summaryText()));
+$('#clearView').addEventListener('click', () => {
+  state.scan = null;
+  state.error = null;
+  state.editing = null;
+  resetSuggestions();
+  renderAll();
+  toast('Current view cleared');
+});
+$('#pasteText').addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') scanPaste(e.target.value);
+});
 
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== 'local') return;
